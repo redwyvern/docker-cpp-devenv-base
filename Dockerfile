@@ -89,10 +89,10 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     autotools-dev \
     libicu-dev \
     build-essential \
-    libbz2-dev && \
-    gcovr && \
-    cppcheck && \
-    doxygen && \
+    libbz2-dev \
+    gcovr \
+    cppcheck \
+    doxygen \
     graphviz && \
     apt-get -q autoremove && \
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
