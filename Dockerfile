@@ -6,10 +6,18 @@ ARG IMAGE_TZ=America/New_York
 
 USER root
 
+# Add some necessary utility packages to bootstrap the install process
+RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    locales \
+    tzdata && \
+    apt-get -q autoremove && \
+    apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+
 # Add locales after locale-gen as needed
 # Upgrade packages on image
 # Preparations for sshd
-run locale-gen en_US.UTF-8 &&\
+RUN locale-gen en_US.UTF-8 &&\
     apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q upgrade -y -o Dpkg::Options::="--force-confnew" --no-install-recommends &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew"  --no-install-recommends openssh-server &&\
@@ -56,7 +64,6 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     libfontconfig1-dev \
     libfreetype6 \
     libfreetype6-dev \
-    curl \
     unzip \
     xml2 && \
     apt-get -q autoremove && \
